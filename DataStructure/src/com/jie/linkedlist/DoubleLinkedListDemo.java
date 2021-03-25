@@ -10,10 +10,10 @@ package com.jie.linkedlist;
 public class DoubleLinkedListDemo {
     public static void main(String[] args) {
         System.out.println("双向链表的测试");
-        HeroNode2 hero1 = new HeroNode2(1, "宋江", "及时雨");
-        HeroNode2 hero2 = new HeroNode2(2, "卢俊义", "玉麒麟");
-        HeroNode2 hero3 = new HeroNode2(3, "吴用", "智多星");
-        HeroNode2 hero4 = new HeroNode2(4, "林冲", "豹子头");
+        HeroNode2 hero1 = new HeroNode2(2, "宋江", "及时雨");
+        HeroNode2 hero2 = new HeroNode2(3, "卢俊义", "玉麒麟");
+        HeroNode2 hero3 = new HeroNode2(4, "吴用", "智多星");
+        HeroNode2 hero4 = new HeroNode2(5, "林冲", "豹子头");
         //创建一个双向链表
         DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
         doubleLinkedList.add(hero1);
@@ -22,13 +22,18 @@ public class DoubleLinkedListDemo {
         doubleLinkedList.add(hero4);
         doubleLinkedList.list();
         //修改
-        HeroNode2 newHeroNode = new HeroNode2(4,"公孙胜","入云龙");
+        HeroNode2 newHeroNode = new HeroNode2(4, "公孙胜", "入云龙");
         doubleLinkedList.update(newHeroNode);
         System.out.println("修改后的链表情况");
         doubleLinkedList.list();
         //删除
         doubleLinkedList.delete(3);
         System.out.println("删除后的链表情况");
+        doubleLinkedList.list();
+        //测试添加方式2
+        HeroNode2 newHero = new HeroNode2(1, "李四", "王二麻子");
+        doubleLinkedList.add2(newHero);
+        System.out.println("添加方式2后的链表");
         doubleLinkedList.list();
     }
 }
@@ -84,6 +89,34 @@ class DoubleLinkedList {
         //形成一个双向链表
         temp.next = node;
         node.pre = temp;
+    }
+
+    /**
+     * 按排名（也就是编号）添加新节点
+     *
+     * @param node 新节点
+     */
+    public void add2(HeroNode2 node) {
+        if (head.next == null) {
+            head.next = node;
+            node.pre = head;
+            return;
+        }
+        HeroNode2 temp = head.next;
+        while (true) {
+            if (node.no<temp.no){
+                node.next = temp;
+                node.pre = temp.pre;
+                temp.pre.next = node;
+                break;
+            }
+            if (temp.next==null){
+                node.pre = temp;
+                temp.next = node;
+                break;
+            }
+            temp = temp.next;
+        }
     }
 
     /**
