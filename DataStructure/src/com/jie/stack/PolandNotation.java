@@ -23,15 +23,29 @@ public class PolandNotation {
         int res = calculate(rpnList);
         System.out.println("计算的结果：" + res);
         String expression = "1+((2+3)*4)-5";
+        //[1, +, (, (, 2, +, 3, ), *, 4, ), -, 5]
         List<String> infixExpressionList = toInfixExpressionList(expression);
+        System.out.println(infixExpressionList);
+        //[1, 2, 3, +, 4, *, +, 5, -]
         List<String> suffixExpressionList = parseSuffixExpressionList(infixExpressionList);
         System.out.println(suffixExpressionList);
         System.out.println(calculate(suffixExpressionList));
+
+        String testp = "1 2 3 + 4 * + 5.1 -";
+        System.out.println(getListString(testp));
+        System.out.println(calculateFloat(getListString(testp)));
     }
 
+    /**
+     * 中缀表达式转换为后缀表达式
+     *
+     * @param infixExpressionList 中缀表达式的list
+     * @return 转换成功的后缀表达式list
+     */
     public static List<String> parseSuffixExpressionList(List<String> infixExpressionList) {
         Stack<String> s1 = new Stack<>();
 //        Stack<String> s2 = new Stack<>();
+        //因为s2中间没有pop操作，所以用ArrayList存储了
         List<String> s2 = new ArrayList<>();
         for (String item : infixExpressionList) {
             if (item.matches("\\d+")) {
@@ -44,9 +58,10 @@ public class PolandNotation {
                 }
                 s1.pop();
             } else {
-                while (s1.size() != 0 && Operation.getValue(s1.peek())>=Operation.getValue(item)) {
+                while (s1.size() != 0 && Operation.getValue(s1.peek()) >= Operation.getValue(item)) {
                     s2.add(s1.pop());
                 }
+                //操作符push到s1中
                 s1.push(item);
             }
         }
@@ -56,6 +71,10 @@ public class PolandNotation {
         return s2;
     }
 
+    /**
+     * @param expression 将中缀表达式从字符串的形式转换为list形式
+     * @return 转换成功后的中缀表达式list
+     */
     public static List<String> toInfixExpressionList(String expression) {
         List<String> ls = new ArrayList<>();
         //索引，用于遍历中缀表达式字符串
@@ -63,6 +82,7 @@ public class PolandNotation {
         String str;
         char c;
         do {
+            //+ - * /
             if ((c = expression.charAt(i)) < 48 || (c = expression.charAt(i)) > 57) {
                 ls.add("" + c);
                 i++;
@@ -88,6 +108,12 @@ public class PolandNotation {
         return list;
     }
 
+    /**
+     * 计算后缀表达式的值
+     *
+     * @param ls 后缀表达式的list形式
+     * @return
+     */
     public static int calculate(List<String> ls) {
         Stack<String> stack = new Stack<>();
         for (String item : ls) {
@@ -99,13 +125,13 @@ public class PolandNotation {
                 int num2 = Integer.parseInt(stack.pop());
                 int num1 = Integer.parseInt(stack.pop());
                 int res = 0;
-                if (item.equals("+")) {
+                if ("+".equals(item)) {
                     res = num1 + num2;
-                } else if (item.equals("-")) {
+                } else if ("-".equals(item)) {
                     res = num1 - num2;
-                } else if (item.equals("*")) {
+                } else if ("*".equals(item)) {
                     res = num1 * num2;
-                } else if (item.equals("/")) {
+                } else if ("/".equals(item)) {
                     res = num1 / num2;
                 } else {
                     throw new RuntimeException("运算符有误");
@@ -115,6 +141,32 @@ public class PolandNotation {
         }
         //最后留在stack的数据就是表达式运算结果
         return Integer.parseInt(stack.pop());
+    }
+
+    public static float calculateFloat(List<String> ls) {
+        Stack<String> stack = new Stack<>();
+        for (String item : ls) {
+            if (item.matches("^(\\-|\\+)?\\d+(\\.\\d+)?$")) {
+                stack.push(item);
+            } else {
+                Float num2 = Float.parseFloat(stack.pop());
+                Float num1 = Float.parseFloat(stack.pop());
+                Float res = 0f;
+                if ("+".equals(item)) {
+                    res = num1 + num2;
+                } else if ("-".equals(item)) {
+                    res = num1 - num2;
+                } else if ("*".equals(item)) {
+                    res = num1 * num2;
+                } else if ("/".equals(item)) {
+                    res = num1 / num2;
+                } else {
+                    throw new RuntimeException("运算符有误");
+                }
+                stack.push(res + "");
+            }
+        }
+        return Float.parseFloat(stack.pop());
     }
 }
 
