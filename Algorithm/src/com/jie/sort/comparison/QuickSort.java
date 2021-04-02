@@ -70,7 +70,7 @@ public class QuickSort {
             }
         }
         //l==r时，此时的arr[l]==pivot arr[r]==pivot
-        //应该去递归pivot左边和右边的值（不包括当下的pivot）
+        //应该去递归pivot左边和右边的值（不包括当下的pivot）,因为pivot左右两边的值与pivot的大小比较已经确定好了
         //所以要调整索引，也就是向左递归，范围是[left,r]，r是pivot-1 向右递归，范围是[l,right]，l是pivot+1
         //如果包括了pivot，向左右递归时会重合排序，因此导致quickSort一直调用，递归出不来了，导致栈溢出，所以当l==r时，要调整索引
         if (l == r) {
