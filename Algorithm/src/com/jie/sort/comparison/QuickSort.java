@@ -1,6 +1,8 @@
 package com.jie.sort.comparison;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * QuickSort
@@ -13,9 +15,22 @@ import java.util.Arrays;
  */
 public class QuickSort {
     public static void main(String[] args) {
-        int[] arr = {-4, 8, 0, -9, 3};
+//        int[] arr = {-4, 8, 0, -9, 3};
+//        quickSort(arr, 0, arr.length - 1);
+//        System.out.println(Arrays.toString(arr));
+        //对快速排序进行速度测试
+        int[] arr = new int[80000];
+        for (int i = 0; i < 80000; i++) {
+            arr[i] = (int) (Math.random() * 80000);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1 = new Date();
+        String d1Str = sdf.format(d1);
+        System.out.println("快速排序前的时间是：" + d1Str);
         quickSort(arr, 0, arr.length - 1);
-        System.out.println(Arrays.toString(arr));
+        Date d2 = new Date();
+        String d2Str = sdf.format(d2);
+        System.out.println("快速排序后的时间是：" + d2Str);
     }
 
     public static void quickSort(int[] arr, int left, int right) {
