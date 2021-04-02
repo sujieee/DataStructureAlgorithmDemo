@@ -1,12 +1,11 @@
-package com.jie;
+package com.jie.sort.comparison;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
  * SelectSort
- * 选择排序
+ * 选择排序算法
  *
  * @author sujie
  * @version 1.0

@@ -1,7 +1,6 @@
-package com.jie;
+package com.jie.sort.comparison;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -72,7 +71,7 @@ public class BubbleSort {
 
 
         //优化
-        //标识变量，表示是否进行过交换
+        //标识变量，表示是否进行过一趟交换
 //        boolean flag = false;
 //        int[] arr = {3, 9, -1, 10, 20};
 //        for (int i = 0; i < arr.length - 1; i++) {
@@ -114,6 +113,7 @@ public class BubbleSort {
 //        System.out.println(Arrays.toString(arr));
     }
 
+    //一趟一趟的筛选
     public static void bubbleSort(int[] arr) {
         int temp = 0;
         boolean flag = false;
